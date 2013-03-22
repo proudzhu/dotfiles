@@ -1,0 +1,77 @@
+background no
+override_utf8_locale yes
+font WenQuanYi MicroHei:size=9
+xftfont WenQuanYi MicroHei:size=9
+use_xft yes
+xftalpha 0.1
+ 
+update_interval 1.0
+total_run_times 0
+own_window_argb_visual yes
+own_window yes
+own_window_type normal
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+#alignment top_left
+alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+#alignment none
+gap_x 12
+gap_y 45
+no_buffers yes
+cpu_avg_samples 2
+override_utf8_locale yes
+uppercase no # set to yes if you want all text to be in uppercase
+use_spacer none
+out_to_console no
+
+default_color white
+default_shade_color black
+default_outline_color grey90
+
+minimum_size 220 5
+maximum_width 220
+
+TEXT
+${color slate grey}System $stippled_hr${font}
+${color}${font StyleBats:size=12}O ${font}${color slate grey}UpTime:$alignr${color }$uptime
+${color}${font StyleBats:size=12}Q ${font}${color slate grey}Kernel:$alignr${color }$kernel
+${color}${font StyleBats:size=12}A ${font}${color slate grey}CPU-1:${goto 80}${hwmon temp 1}'C$alignr${color #ddaa00} ${cpu cpu1}%
+${cpugraph 20,220 808080 ffffff}
+${color}${font StyleBats:size=12}A ${font}${color slate grey}CPU-2:${goto 80}${hwmon temp 1}'C$alignr${color #ddaa00} ${cpu cpu2}%
+${cpugraph 20,220 808080 ffffff}
+${color}${font WebDings:size=12}i${font}${color slate grey}Highest CPU:$alignr -PID-  CPU%
+${color #ddaa00}${top name 1}$alignr${top pid 1}${top cpu 1}
+${color lightgrey}${top name 2}$alignr${top pid 2}${top cpu 2}
+${color lightgrey}${top name 3}$alignr${top pid 3}${top cpu 3}
+${color slate grey}Memory:
+${color}$mem / $memmax $alignr${color #ddaa00}$memperc%
+${color}${membar 5,220}
+${color slate grey}Swap:
+${color}$swap / $swapmax $alignr${color #ddaa00}$swapperc%
+${color}${swapbar 5,220}
+${color}${font Webdings:size=12}i${font}${color slate grey}Highest MEM:$alignr -PID-  MEM%
+${color #ddaa00}${top_mem name 1}$alignr${top_mem pid 1}${top_mem mem 1}
+${color lightgrey}${top_mem name 2}$alignr${top_mem pid 2}${top_mem mem 2}
+${color lightgrey}${top_mem name 3}$alignr${top_mem pid 3}${top_mem mem 3}
+${color slate grey}HD $stippled_hr${font}
+${color slate grey}Disk Read:${alignr}${color}$diskio_read
+${color}${diskiograph_read /dev/sda 10,220 808080 ffffff}
+${color slate grey}Disk Write:${alignr}${color}$diskio_write
+${color}${diskiograph_write /dev/sda 10,220 808080 ffffff}
+${color slate grey}Internet $stippled_hr${font}
+${voffset 6}${color}${font PizzaDude Bullets:size=12}S${font} Tot.D. ${totaldown eth0}$alignr${color #ddaa00}${downspeed eth0}k/s
+${downspeedgraph eth0 20,220 808080 ffffff}
+${color}${font PizzaDude Bullets:size=12}M${font} Tot.U. ${totalup eth0}$alignr${color #ddaa00}${upspeed eth0}k/s
+${upspeedgraph eth0 20,220 808080 ffffff}
+${color}${font SimpMusic Base:size=22}~${color slate grey}${font}  DeadBeef Music$stippled_hr${font}
+${color}Artist:${alignr}${color}${execi 2 deadbeef --nowplaying "%a"}
+${color}Title:${alignr}${color}${execi 2 deadbeef --nowplaying "%t"} 
+${color}${voffset 6}${execbar python2 /home/proudzhu/Scripts/deadbeef.py}
