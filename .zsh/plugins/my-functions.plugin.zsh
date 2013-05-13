@@ -362,3 +362,19 @@ zle -N sudo-command-line
 #定义快捷键为： [Esc] [Esc]
 bindkey "\e\e" sudo-command-line
 #}}}
+#
+#
+# A simple calc
+calc(){ awk "BEGIN{ print $* }" ;}
+
+#ydcv proxy
+ydcv_proxy() {
+    proxy >/dev/null;
+    ydcv $@;
+    proxyoff >/dev/null;
+}
+
+# whoneeds only aur packages
+aurneeds() {
+    comm -12 <(pacman -Qqm | sort) <(whoneeds $1 | sed -e '1d; s|^\s*||' | sort)
+}
