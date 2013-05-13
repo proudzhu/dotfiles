@@ -1,4 +1,4 @@
 dotfiles
 ========
 
-some config files for arch
+some config files and scripts for arch
