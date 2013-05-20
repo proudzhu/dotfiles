@@ -1,0 +1,20 @@
+#!/bin/bash
+
+for package in $(pacman -Qqm); do
+  pkg=($(awk '/^Version/{print $3} /^Provides/{ for(i=3;i<=NF;i++) print $i };' <(pacman -Qi $package)))
+
+  for provide in ${pkg[@]:1}; do
+    [[ $provide == "None" ]] && continue
+    provide=${provide%=*}
+
+    pacver=$(awk '/^Version/{ print $3; exit }' <(pacman -Si ${provide} 2>/dev/null))
+    [[ -z ${pacver} ]] && continue
+
+    [[ ${pacver%-*} == ${pkg[0]%-*} ]] && continue
+
+    if [[ $(vercmp ${pacver} ${pkg[0]}) -gt 0 ]]; then
+      echo -e "${provide} \033[1;31m${pkg[0]}\033[1;0m -> \033[1;32m${pacver}\033[1;0m"
+    fi
+  done
+
+done

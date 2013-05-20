@@ -18,31 +18,30 @@ brokenpkgs=""
 autoignored=""
 
 # the core of the script #
-TS=`date +%s`  # start timer
+TS=$(date +%s)  # start timer
 
-localpackages=`pacman -Qqm`
-localpackagesamount=`echo ${localpackages} | wc -w`
+localpackages=$(pacman -Qqm)
+localpackagesamount=$(echo ${localpackages} | wc -w)
 echo -e "Checking ${BOLDWHITE}${localpackagesamount}${NC} local package...\n"
 
 for package in $localpackages ; do
 	BROKEN="false"
-    echo -n "Checking ${BOLDWHITE}${package}${NC}..."
-    PkgArch=`pacman -Qi $package | grep "Architecture" | awk '{print $3}' -`
+    echo -en "Checking ${BOLDWHITE}${package}${NC}..."
+    PkgArch=$(pacman -Qi $package | awk ' BEGIN {FS=" "}/^Architecture/{printf $3}') #use awk only instead of grep
     if [[ ${PkgArch} == 'any' ]]; then  #Skip package whose architecture is any
         autoignored="${autoignored} ${package}"
         echo -e " ${BOLDGREEN}[SKIPPED]${NC}"
         continue
     fi
-	packagefiles=`pacman -Qql $package | egrep  "/s?bin/\w|\.so\.?|\.o$"` #only choose binary, .so and .o files
+	packagefiles=$(pacman -Qql $package | egrep  "/s?bin/\w|\.so\.?|\.o$") #only choose binary, .so and .o files
 	for file in $packagefiles; do # check the files
 		if (( $(file $file | grep -c 'ELF') != 0 )); then
 			#  Is an ELF binary.
-			libs=`readelf -d "${file}" | awk '/NEEDED.*\[.*\]/''{print $5}' | awk  '{ gsub(/\[|\]/, "") ; print  }'`
-            #filepath=`echo ${file} | sed -e "s|/[^/]*$||" ` #get current file's path
-            filepath=$(dirname ${file})
-			for lib in ${libs} ; do
+			#libs=`readelf -d "${file}" | awk '/NEEDED.*\[.*\]/''{print $5}' | awk  '{ gsub(/\[|\]/, "") ; print  }'`
+			libs=$(readelf -d "${file}" | awk 'BEGIN {FS="["}/NEEDED/{printf $2}'|tr ']' '\n')
+            for lib in ${libs} ; do
 			# needed libs
-				if [ -z `whereis ${lib} | awk '{print $2}'` ] && [ -z `find ${filepath} -type f -name ${lib}` ] ; then #check local libs and bundled libs
+            if [ -z $(whereis ${lib} | awk '{print $2}') ] && [ -z $(find $(dirname ${file}) -type f -name ${lib}) ] ; then #check local libs and bundled libs
 					#  Missing lib.
 					echo -e "\n\t ${BOLDRED}${file}${NC} needs ${BOLDRED}${lib}${NC}"
 					BROKEN="true" # to avoid packages being listed in the brokenpkg array several times
@@ -59,13 +58,13 @@ for package in $localpackages ; do
 done
 echo "everything done."
 
-brokenamount=`echo ${brokenpkgs} | wc -w`
+brokenamount=$(echo ${brokenpkgs} | wc -w)
 echo -e "\n${BOLDWHITE}${brokenamount}${NC} package(s) may need rebuild: \n${BOLDRED}${brokenpkgs}${NC}\n"
-autoignoredamount=`echo ${autoignored} | wc -w`
+autoignoredamount=$(echo ${autoignored} | wc -w)
 echo -e "${BOLDWHITE}${autoignoredamount}${NC} package(s) auto ignored: \n${BOLDGREEN}${autoignored}${NC}\n"
 
 #timeend
-TE=`date +%s`
+TE=$(date +%s)
 let TD="$TE-$TS"
 echo -e "Done after ${BOLDWHITE}${TD}${NC} seconds."
 echo "This script may not be able to distinguish between required and optional dependencies!"
