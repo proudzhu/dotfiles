@@ -8,17 +8,19 @@
 
 AURURL="https://aur.archlinux.org"
 ALL='&comments=all'
-CON=$(echo -e '\033[1;37m')
-COFF=$(echo -e '\033[0m')
 
 commfilter() {
   xmllint --html --xpath \
     '//div[@id="news"]' - 2>/dev/null |\
     sed -e 's/<[^>]\+>//g; s/\t//g; s/\r$//; 
-            /^$/d; /^Comment\ by/{x;p;x;}; '
+            /^$/d; /^Comment\ by/{x;p;x;}; /^Latest\ Comments$/d; /^All\ comments$/d;
+            s/^Comment by.*$/\x1b[7m&\x1b[0m/ ' |\
+    sed '1d' -
 
     # line 1: strip html tags, tabs and ^M
-    # line 2: strip empty lines between timestamp and body
+    # line 2: strip empty lines between timestamp and body, delete first and last line
+    # line 3: add color
+    # line 4: delete the first empty line
 }
 
 getpkgID() {

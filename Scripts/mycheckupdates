@@ -1,4 +1,26 @@
-#!/bin/bash
+#!/usr/bin/bash
+#
+#   Inspired by checkupdates shipped with pacman.
+#   Just add cower style output.
+#
+#
+#   checkupdates: Safely print a list of pending updates.
+#
+#   Copyright (c) 2013 Kyle Keen <keenerd@gmail.com>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 #color used by cower
 NC="\033[0m"
@@ -9,23 +31,39 @@ BOLDBLUE="\033[1;34m"
 BOLDWHITE="\033[1;37m"
 
 
-printf "${BOLDWHITE}Checking Official Repos...${NC}\n"
-updates=`checkupdates`
-if [[ $updates == "" ]] ; then
-    printf " official repos are up to date\n"
+if (( $# > 0 )); then
+	echo "mycheckupdate: Safely print a list of pending updates."
+	echo "Use: mycheckupdates"
+	echo "Export the 'CHECKUPDATE_DB' variable to change the path of the temporary database."
+	exit 0
 fi
+
+if [[ -z $CHECKUPDATE_DB ]]; then
+	CHECKUPDATE_DB="${TMPDIR:-/tmp}/checkup-db-${USER}/"
+fi
+
+trap 'rm -f $CHECKUPDATE_DB/db.lck' INT TERM EXIT
+
+DBPath="${DBPath:-/var/lib/pacman/}"
+eval $(awk -F' *= *' '$1 ~ /DBPath/ { print $1 "=" $2 }' /etc/pacman.conf)
+
+mkdir -p "$CHECKUPDATE_DB"
+ln -s "${DBPath}/local" "$CHECKUPDATE_DB" &> /dev/null
+fakeroot pacman -Sy --dbpath "$CHECKUPDATE_DB" --logfile /dev/null &> /dev/null
+updates=$(pacman -Qqu --dbpath "$CHECKUPDATE_DB")
+
+#check official repos
 for package in $updates ; do 
-    localversion=`sudo pacman -Qi $package | grep "Version" | awk '{print $3}' -`
-    remoteversion=`sudo pacman -Sy | pacman -Si $package | grep "Version" | awk '{print $3}' -`
+    localversion=$(pacman -Qi $package | grep "Version" | awk '{print $3}' -)
+    remoteversion=$(pacman -Si $package | grep "Version" | awk '{print $3}' -)
     if [[ ${localversion} != ${remoteversion} ]] ; then 
         printf "${BOLDBLUE}::${NC} ${BOLDWHITE}${package}${NC}\t${BOLDRED}${localversion}${NC} -> ${BOLDGREEN}${remoteversion}${NC}\n"
     fi
 done
 
+#check aur
+cower --color=auto -u
 
-printf "${BOLDWHITE}Checking AUR...${NC}\n"
-aur=`cower --color=auto -u`
-if [[ $aur == "" ]] ; then
-    printf " aur is up to date\n"
-fi
+exit 0
 
+# vim: set ts=2 sw=2 noet:
