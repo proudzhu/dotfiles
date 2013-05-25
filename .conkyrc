@@ -71,7 +71,7 @@ ${voffset 6}${color}${font PizzaDude Bullets:size=12}S${font} Tot.D. ${totaldown
 ${downspeedgraph eth0 20,220 808080 ffffff}
 ${color}${font PizzaDude Bullets:size=12}M${font} Tot.U. ${totalup eth0}$alignr${color #ddaa00}${upspeed eth0}k/s
 ${upspeedgraph eth0 20,220 808080 ffffff}
-${color}${font SimpMusic Base:size=22}~${color slate grey}${font}  DeadBeef Music$stippled_hr${font}
+${color}${font SimpMusic Base:size=22}~${color slate grey}${font}  DeadBeeF Music$stippled_hr${font}
 ${color}Artist:${alignr}${color}${execi 2 deadbeef --nowplaying "%a"}
 ${color}Title:${alignr}${color}${execi 2 deadbeef --nowplaying "%t"} 
 ${color}${voffset 6}${execbar python2 /home/proudzhu/Scripts/deadbeef.py}

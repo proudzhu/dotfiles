@@ -1,7 +1,7 @@
 background no
 override_utf8_locale yes
 use_xft yes
-xftfont Monaco:size=8
+xftfont Ubuntu:size=8
 xftalpha 0.1
 
 update_interval 1.0

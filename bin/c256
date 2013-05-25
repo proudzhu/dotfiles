@@ -1,0 +1,101 @@
+#!/usr/bin/perl
+#
+# by dmz (https://bbs.archlinux.org/viewtopic.php?pid=857078#p857078)
+#
+use strict;
+use Getopt::Long;
+use Data::Dumper;
+use Pod::Usage;
+
+my %colors = (); 
+my $unicode = "░▒▓██▓▒░";
+
+my %color = ();
+for my $i(1..255) { # check why \033[38;5;000 is illegal
+  $i = sprintf("%03d",$i);
+  $color{$i} = "\033[48;5;$i" . 'm' . "\033[38;5;$i" . 'm' . "   " . "\033[0m";
+}
+
+square(8) unless(@ARGV);
+
+our($opt_sqsize);
+GetOptions(
+  'col:s'   => \$opt_sqsize,
+  list      => \&list,
+  sq        => \&square,
+  help      => sub { pod2usage(verbose => 1)},
+  man       => sub { pod2usage(verbose => 3)},
+);
+
+square($opt_sqsize) if(defined($opt_sqsize));
+
+sub square {
+  my $num = shift;
+  my $end = undef;
+  my $atr = undef;
+  for my $i(sort(keys(%color))) {
+    if($i % $num==0) {
+      $end = "\033[0m  \n";
+      $atr = "\033[1m";
+    }
+    else {
+      $end = "\033[0m";
+      $atr = "\033[3m";
+    }
+    print "$atr\033[38;5;$i" . 'm' . " $i ", $color{$i},$end;
+  }
+  print "\n";
+  exit(0);
+}
+
+sub list {
+  for my $i(sort(keys(%color))) {
+    print $color{$i},"\033[38;5;$i" . 'm', $unicode,"  $i  ", "\033[0m\n";
+  }
+  exit(0);
+}
+
+=pod
+
+=head1 NAME
+
+  colortest-256-ng - print various tables in 256 colors
+
+=head1 SYNOPSIS
+
+  c256 [-s size ] [-l | -sq]
+
+=head1 DESCRIPTION
+
+c256 will tell you if your terminal supports 256 colors.
+It can also be used to see what color responds to what integer (0..255)
+
+=head1 OPTIONS
+
+  -s,   --square  square format (default)
+  -l,   --list    list format
+  -c,   --col     n columns
+
+  -h    --help    help message
+  -m    --man     view manpage
+
+=head1 TRIVIA
+
+The background notation to use is <ESC>38;5 - \033[38;5;100m
+
+The foreground notation to use is <ESC>48;5 - \033[48;5;197m
+
+The foreground and background colors can be changed on the fly:
+  printf "\033[4;200;rgb/7a/67/ee\033\\"
+
+=head1 AUTHOR
+
+Written by Magnus Woldrich
+
+=head1 COPYRIGHT
+
+(C) Copyright 2010 Magnus Woldrich. 
+
+License GPLv2.
+
+=cut
