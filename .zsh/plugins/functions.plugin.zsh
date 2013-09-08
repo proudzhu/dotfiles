@@ -186,7 +186,7 @@ function killps() {  # kill by process name
 }
 
 function myip() {
-   MY_IP=$(/usr/sbin/ip addr show eth0 | awk '/inet/ { print $2 } ' | 
+   MY_IP=$(/usr/bin/ip addr show enp0s25 | awk '/inet/ { print $2 } ' | 
         sed -e s/addr://)
    echo ${MY_IP:-"Not connected"}
 }

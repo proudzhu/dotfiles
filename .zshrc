@@ -1,8 +1,10 @@
 # Path to your zsh configuration.
-ZSH=$HOME/.zsh/
+ZSH=$HOME/.zsh
+
+TERM=xterm-256color
 
 #PATH
-PATH=$PATH:$HOME/bin:/usr/bin/vendor_perl/:$(ruby -rubygems -e "puts Gem.user_dir")/bin
+PATH=$PATH:$HOME/bin:/usr/bin/vendor_perl/
 
 # add a function path
 fpath=($ZSH/completions $fpath)
