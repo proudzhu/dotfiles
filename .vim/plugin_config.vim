@@ -33,3 +33,13 @@ set laststatus=2
 "==>vim-flake8
 """""""""""""""""""""""""""""""""""""
 autocmd BufWritePost *.py call Flake8()
+
+"""""""""""""""""""""""""""""""""""""
+"==>gundo.vim
+"""""""""""""""""""""""""""""""""""""
+nnoremap <F5> :GundoToggle<CR>
+
+"""""""""""""""""""""""""""""""""""""
+"==>taglist
+"""""""""""""""""""""""""""""""""""""
+nnoremap <silent> <F8> :TlistToggle<CR>

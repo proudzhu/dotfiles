@@ -44,3 +44,26 @@
     path = .vim/bundle/vim-flake8
     url = git://github.com/nvie/vim-flake8.git
 
+[submodule "gundo.vim"]
+    path = .vim/bundle/gundo.vim
+    url = git://github.com/sjl/gundo.vim.git
+
+[submodule "taglist.vim"]
+    path = .vim/bundle/taglist.vim
+    url = git://github.com/mtth/taglist.vim.git
+
+[submodule "vim-markdown"]
+    path = .vim/bundle/vim-markdown
+    url = git://github.com/tpope/vim-markdown.git
+
+[submodule "vim-perl"]
+    path = .vim/bundle/vim-perl
+    url = git://github.com/vim-perl/vim-perl.git
+
+[submodule "vim-multiple-cursors"]
+    path = .vim/bundle/vim-multiple-cursors
+    url = git://github.com/terryma/vim-multiple-cursors.git
+
+[submodule "vim-snippets"]
+    path = .vim/bundle/vim-snippets
+    url = git://github.com/honza/vim-snippets.git

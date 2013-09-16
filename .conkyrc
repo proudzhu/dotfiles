@@ -71,10 +71,10 @@ ${color}${diskiograph_read /dev/sda 10,220 808080 ffffff}
 ${color slate grey}Disk Write:${alignr}${color}$diskio_write
 ${color}${diskiograph_write /dev/sda 10,220 808080 ffffff}
 ${color slate grey}Internet $stippled_hr${font}
-${voffset 6}${color}${font PizzaDude Bullets:size=12}S${font} Tot.D. ${totaldown enp0s25}$alignr${color #ddaa00}${downspeed enp0s25}k/s
-${downspeedgraph enp0s25 10,220 808080 ffffff}
-${color}${font PizzaDude Bullets:size=12}M${font} Tot.U. ${totalup enp0s25}$alignr${color #ddaa00}${upspeed enp0s25}k/s
-${upspeedgraph enp0s25 10,220 808080 ffffff}
+${voffset 6}${color}${font PizzaDude Bullets:size=12}S${font} Tot.D. ${if_running wpa_supplicant}${totaldown wlp3s0}${else}${totaldown enp0s25}${endif}$alignr${color #ddaa00}${if_running wpa_supplicant}${downspeed wlp3s0}${else}${downspeed enp0s25}${endif}k/s
+${if_running wpa_supplicant}${downspeedgraph wlp3s0 10,220 808080 ffffff}${else}${downspeedgraph enp0s25 10,220 808080 ffffff}${endif}
+${color}${font PizzaDude Bullets:size=12}M${font} Tot.U. ${if_running wpa_supplicant}${totalup wlp3s0}${else}${totalup enp0s25}${endif}$alignr${color #ddaa00}${if_running wpa_supplicant}${upspeed wlp3s0}${else}${upspeed enp0s25}${endif}k/s
+${if_running wpa_supplicant}${upspeedgraph wlp3s0 10,220 808080 ffffff}${else}${upspeedgraph enp0s25 10,220 808080 ffffff}${endif}
 ${color}${font SimpMusic Base:size=22}~${color slate grey}${font}  DeadBeeF Music$stippled_hr${font}
 ${color}Artist:${alignr}${color}${execi 2 deadbeef --nowplaying "%a"}
 ${color}Title:${alignr}${color}${execi 2 deadbeef --nowplaying "%t"} 
