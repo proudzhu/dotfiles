@@ -44,9 +44,13 @@ ${color slate grey}System $stippled_hr${font}
 ${color}${font StyleBats:size=12}O ${font}${color slate grey}UpTime:$alignr${color }$uptime
 ${color}${font StyleBats:size=12}Q ${font}${color slate grey}Kernel:$alignr${color }$kernel
 ${color}${font StyleBats:size=12}A ${font}${color slate grey}CPU-1:${goto 80}${hwmon temp 1}'C$alignr${color #ddaa00} ${cpu cpu1}%
-${cpugraph 20,220 808080 ffffff}
+${cpugraph 10,220 808080 ffffff}
 ${color}${font StyleBats:size=12}A ${font}${color slate grey}CPU-2:${goto 80}${hwmon temp 1}'C$alignr${color #ddaa00} ${cpu cpu2}%
-${cpugraph 20,220 808080 ffffff}
+${cpugraph 10,220 808080 ffffff}
+${color}${font StyleBats:size=12}A ${font}${color slate grey}CPU-3:${goto 80}${hwmon temp 1}'C$alignr${color #ddaa00} ${cpu cpu3}%
+${cpugraph 10,220 808080 ffffff}
+${color}${font StyleBats:size=12}A ${font}${color slate grey}CPU-4:${goto 80}${hwmon temp 1}'C$alignr${color #ddaa00} ${cpu cpu4}%
+${cpugraph 10,220 808080 ffffff}
 ${color}${font WebDings:size=12}i${font}${color slate grey}Highest CPU:$alignr -PID-  CPU%
 ${color #ddaa00}${top name 1}$alignr${top pid 1}${top cpu 1}
 ${color lightgrey}${top name 2}$alignr${top pid 2}${top cpu 2}
@@ -67,10 +71,10 @@ ${color}${diskiograph_read /dev/sda 10,220 808080 ffffff}
 ${color slate grey}Disk Write:${alignr}${color}$diskio_write
 ${color}${diskiograph_write /dev/sda 10,220 808080 ffffff}
 ${color slate grey}Internet $stippled_hr${font}
-${voffset 6}${color}${font PizzaDude Bullets:size=12}S${font} Tot.D. ${totaldown eth0}$alignr${color #ddaa00}${downspeed eth0}k/s
-${downspeedgraph eth0 20,220 808080 ffffff}
-${color}${font PizzaDude Bullets:size=12}M${font} Tot.U. ${totalup eth0}$alignr${color #ddaa00}${upspeed eth0}k/s
-${upspeedgraph eth0 20,220 808080 ffffff}
+${voffset 6}${color}${font PizzaDude Bullets:size=12}S${font} Tot.D. ${if_running wpa_supplicant}${totaldown wlp3s0}${else}${totaldown enp0s25}${endif}$alignr${color #ddaa00}${if_running wpa_supplicant}${downspeed wlp3s0}${else}${downspeed enp0s25}${endif}k/s
+${if_running wpa_supplicant}${downspeedgraph wlp3s0 10,220 808080 ffffff}${else}${downspeedgraph enp0s25 10,220 808080 ffffff}${endif}
+${color}${font PizzaDude Bullets:size=12}M${font} Tot.U. ${if_running wpa_supplicant}${totalup wlp3s0}${else}${totalup enp0s25}${endif}$alignr${color #ddaa00}${if_running wpa_supplicant}${upspeed wlp3s0}${else}${upspeed enp0s25}${endif}k/s
+${if_running wpa_supplicant}${upspeedgraph wlp3s0 10,220 808080 ffffff}${else}${upspeedgraph enp0s25 10,220 808080 ffffff}${endif}
 ${color}${font SimpMusic Base:size=22}~${color slate grey}${font}  DeadBeeF Music$stippled_hr${font}
 ${color}Artist:${alignr}${color}${execi 2 deadbeef --nowplaying "%a"}
 ${color}Title:${alignr}${color}${execi 2 deadbeef --nowplaying "%t"} 

@@ -1,8 +1,12 @@
 # Path to your zsh configuration.
-ZSH=$HOME/.zsh/
+ZSH=$HOME/.zsh
+
+TERM=xterm-256color
+
+VIM=$HOME/.vim
 
 #PATH
-PATH=$PATH:$HOME/bin:/usr/bin/vendor_perl/:$(ruby -rubygems -e "puts Gem.user_dir")/bin
+PATH=$PATH:$HOME/bin:/usr/bin/vendor_perl/
 
 # add a function path
 fpath=($ZSH/completions $fpath)
@@ -20,6 +24,10 @@ for plugin_file ($ZSH/plugins/*.plugin.zsh) source $plugin_file
 source $ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # load history substring search
 source $ZSH/zsh-history-substring-search/zsh-history-substring-search.zsh
+# bind UP and DOWN arrow keys
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
 
 # Load and run compinit
 autoload -U age

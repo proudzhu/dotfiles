@@ -20,7 +20,7 @@ alias makepkg='makepkg -f'
 alias grep='grep -i --color=auto'
 
 #dkms
-alias dkms_vbox="sudo dkms install vboxhost/$(pacman -Q virtualbox|awk {'print $2'}|sed 's/\-.\+//') -k $(uname -rm|sed 's/\ /\//')"
+#alias dkms_vbox="sudo dkms install vboxhost/$(pacman -Q virtualbox|awk {'print $2'}|sed 's/\-.\+//') -k $(uname -rm|sed 's/\ /\//')"
 
 #ping
 alias pingv4='sudo ping -c 3 www.fudan.edu.cn'
