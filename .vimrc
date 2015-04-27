@@ -13,6 +13,7 @@ Bundle 'gmarik/Vundle.vim'
 " original repos on github
 Plugin 'andviro/flake8-vim'
 Plugin 'bling/vim-airline'
+Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'esukram/vim-taglist' 
 Plugin 'helino/vim-nasm'
 "Plugin 'jeaye/color_coded'
