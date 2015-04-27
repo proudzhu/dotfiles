@@ -1,5 +1,4 @@
 #pacman
-alias pacman='sudo pacman'
 alias Syy='sudo pacman -Syy'
 alias Syu='sudo pacman -Syu'
 alias Syyu='sudo pacman -Syyu'
@@ -8,13 +7,15 @@ alias Syyu='sudo pacman -Syyu'
 alias pkgfile='pkgfile -v'
 
 #ls
-alias ls='ls --color=auto --group-directories-first'
-alias l='ls -h --color=auto --group-directories-first'
-alias ll='ls -hl --color=auto --group-directories-first'
-alias la='ls -hA --color=auto --group-directories-first'
+alias ls='ls --escape -h --color=auto --group-directories-first'
+alias ll='ls --escape -hl --color=auto --group-directories-first'
+alias la='ls --escape -hlA --color=auto --group-directories-first'
 
 #makepks
 alias makepkg='makepkg -f'
+
+# advcp
+#alias cp='acp -g'
 
 #grep
 alias grep='grep -i --color=auto'
@@ -23,14 +24,14 @@ alias grep='grep -i --color=auto'
 #alias dkms_vbox="sudo dkms install vboxhost/$(pacman -Q virtualbox|awk {'print $2'}|sed 's/\-.\+//') -k $(uname -rm|sed 's/\ /\//')"
 
 #ping
-alias pingv4='sudo ping -c 3 www.fudan.edu.cn'
-alias pingv6='sudo ping6 -c 3 mirrors.ustc.edu.cn'
+alias pingv4='sudo ping -c 3 www.baidu.com'
+alias pingv6='sudo ping6 -c 3 ipv6.google.com'
 
 #aria2c
 alias aria2c_proxy='aria2c --continue=true  --all-proxy=127.0.0.1:8087  --check-certificate=false'
 
 #paste to net
-alias p2net='curl --proxy "127.0.0.1:8087" -F "vimcn=<-" http://p.vim-cn.com' 
+alias p2net='curl -F "vimcn=<-" http://p.vim-cn.com' 
 
 #use vim as defaulted
 alias vi='vim'
@@ -54,3 +55,28 @@ alias lsnew="ls -rl *(D.om[1,10])"
 alias lsold="ls -rtlh *(D.om[1,10])"
 # display the ten smallest files
 alias lssmall="ls -Srl *(.oL[1,10])"
+
+# cpanm
+alias cpanm2='cpanm --mirror http://fs.fudan.edu.cn/mirror/CPAN --mirror-only'
+
+# ydcv with proxy
+alias ydcv_proxy='ydcv3 --proxy=127.0.0.1:8087'
+
+# suffix alias
+for i in avi rmvb wmv mp4 mkv; alias -s $i=mplayer
+
+# archnews
+alias archnews='archnews.py|head -n 10'
+
+# git
+alias gitlg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+# man
+alias woman='man'
+alias girl='man'
+
+# ycm_config_gen
+alias ycm_config_gen="$HOME/workspace/YCM-Generator/config_gen.py ."
+
+# get system install time
+alias get_installation_time='echo $(grep -c "full system upgrade" /var/log/pacman.log) upgrades since $(head -n1 /var/log/pacman.log | cut -d " " -f 1,2)'

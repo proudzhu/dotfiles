@@ -186,9 +186,10 @@ function killps() {  # kill by process name
 }
 
 function myip() {
-   MY_IP=$(/usr/bin/ip addr show enp0s25 | awk '/inet/ { print $2 } ' | 
-        sed -e s/addr://)
-   echo ${MY_IP:-"Not connected"}
+   ETH_IP=$(/usr/sbin/ip addr show eth0 | awk '/inet/ { print $2 }')
+   WLAN_IP=$(/usr/sbin/ip addr show wlan0 | awk '/inet/ { print $2 }')
+   echo "eth0:\n${ETH_IP:-'Not connected'}"
+   echo "wlan0:\n${WLAN_IP:-'Not connected'}"
 }
 
 function ii() {  # get current host related info
@@ -203,6 +204,16 @@ function ii() {  # get current host related info
     echo
 }
 
+mvgb () { # 文件名从 GB 转码，带确认{
+    for i in $@; do
+        new="`echo $i|iconv -f utf8 -t latin1|iconv -f gbk`"
+        echo $new
+        echo -n 'Sure? '
+        read -q ans && mv -i $i $new
+        echo
+    done
+}
+
 ##############################################
 # Pacman Tips
 ##############################################
@@ -215,7 +226,7 @@ function  orphans()  {
   fi
 }
 
-function paclist() {
+function mypaclist() {
     pacman -Qei $(comm -23 <(pacman -Qtq|sort) <(pacman -Qqg base base-devel|sort)) |\
     awk ' BEGIN {FS=":"}/^Name/{printf("\033[1;36m%s\033[0m", $2)}/^Description/{print $2}'
 }
@@ -241,18 +252,26 @@ function pacdisowned() {
 pacman-log() {
     #if $1 is not given, use 100 instead
     tail -n ${1:-100} /var/log/pacman.log |\
-    awk ' BEGIN {FS=" "}/\[PACMAN\] upgraded/{printf("\033[1;32mUpgraded \033[0m \033[1;36m%s\033[0m %s%s%s\n", $5, $6, $7, $8)}
-			/\[PACMAN\] removed/{printf("\033[1;31mRemoved  \033[0m \033[1;36m%s\033[0m %s\n", $5, $6)}
-			/\[PACMAN\] installed/{printf("\033[1;37mInstall  \033[0m \033[1;36m%s\033[0m %s\n", $5, $6)}
-			/\[PACMAN\] downgraded/{printf("\033[1;33mDowngrade\033[0m \033[1;36m%s\033[0m %s%s%s\n", $5, $6, $7, $8)}
-			/\[PACMAN\] reinstalled/{printf("\033[1;34mReinstall\033[0m \033[1;36m%s\033[0m %s\n", $5, $6)} '
+    awk ' BEGIN {FS=" "}/\[ALPM\] upgraded/{printf("\033[1;32mUpgraded \033[0m \033[1;36m%s\033[0m %s%s%s\n", $5, $6, $7, $8)}
+			/\[ALPM\] removed/{printf("\033[1;31mRemoved  \033[0m \033[1;36m%s\033[0m %s\n", $5, $6)}
+			/\[ALPM\] installed/{printf("\033[1;37mInstall  \033[0m \033[1;36m%s\033[0m %s\n", $5, $6)}
+			/\[ALPM\] downgraded/{printf("\033[1;33mDowngrade\033[0m \033[1;36m%s\033[0m %s%s%s\n", $5, $6, $7, $8)}
+			/\[ALPM\] reinstalled/{printf("\033[1;34mReinstall\033[0m \033[1;36m%s\033[0m %s\n", $5, $6)} '
+}
+
+# pacman optional use sudo
+pacman() {
+    case $1 in
+        -S | -D | -S[^sih]* | -R* | -U*)    /usr/bin/sudo /usr/bin/pacman "$@" ;;
+        *)                                  /usr/bin/pacman "$@" ;;
+    esac
 }
 
 #proxy
 function proxy() {
-     export http_proxy="127.0.0.1:8087"
-     export https_proxy="127.0.0.1:8087"
-     export ftp_proxy="127.0.0.1:8087"
+     export http_proxy="127.0.0.1:8123"
+     export https_proxy="127.0.0.1:8123"
+     export ftp_proxy="127.0.0.1:8123"
      export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
      echo -e "\nProxy environment variable set."
  }
@@ -280,9 +299,9 @@ restart() {
 stop() {
 	sudo systemctl stop $1
 }
-enable() {
-    sudo systemctl enable $1
-}
+#enable() {
+#    sudo systemctl enable $1
+#}
 status() {
     sudo systemctl status $1
 }
@@ -295,7 +314,11 @@ disable() {
 ##############################################
 # Scrot in 5s, save it in ~/Pictures/capture/ and paste it on img.vim-cn.com
 function scrot2net () {
-	scrot "%Y-%m-%d-%T_$wx$h.png" -d 5 -e 'curl --proxy "127.0.0.1:8087" -F "name=@$f" http://img.vim-cn.com/; mv $f ~/Pictures/capture/'
+	scrot "%Y-%m-%d-%T_$wx$h.png" -d 5 -e 'curl -F "name=@$f" http://img.vim-cn.com/; mv $f ~/Pictures/capture/'
+}
+
+function img2net () {
+    curl -F "name=@$f" http://img.vim-cn.com/
 }
 
 # Scort in 5s, save it in ~/Pictures/capture/
@@ -375,13 +398,6 @@ bindkey "\e\e" sudo-command-line
 # A simple calc
 calc(){ awk "BEGIN{ print $* }" ;}
 
-#ydcv proxy
-ydcv_proxy() {
-    proxy >/dev/null;
-    ydcv $@;
-    proxyoff >/dev/null;
-}
-
 # whoneeds only aur packages
 aurneeds() {
     comm -12 <(pacman -Qqm | sort) <(whoneeds $1 | sed -e '1d; s|^\s*||' | sort)
@@ -403,7 +419,7 @@ man2pdf() {
         else
                 echo "ERROR: manpage \"$1\" not found."
         fi
-    fi
+	fi
 }
 
 #edit config files
@@ -420,7 +436,8 @@ edit() {
         'alias')		vi ~/.zsh/plugins/alias.plugin.zsh ;;
         'fun')	        vi ~/.zsh/plugins/functions.plugin.zsh ;;
         'conky')        vi ~/.conkyrc ;;
-        *)				vi $1 ;;
+		'vimrc')		vi ~/.vimrc ;;
+        *)		vi $1 ;;
     esac
 }
 alias e='edit'
@@ -451,4 +468,9 @@ getrand() {
     for i in {1..$1} ; do
         echo $(($RANDOM % 100))
     done
+}
+
+#md5sum for a input string
+md5() {
+    md5sum<<<$1 | cut -f1 -d' ';
 }
