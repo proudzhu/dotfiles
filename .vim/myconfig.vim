@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "==> colorscheme
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-colorscheme ir_black 
+colorscheme ir_black
 "set background=dark
 "colorscheme solarized
 
@@ -11,7 +11,7 @@ colorscheme ir_black
 " Sets how many lines of history VIM has to remember
 set history=700
 
-" display line number 
+" display line number
 set number
 
 " enable syntax

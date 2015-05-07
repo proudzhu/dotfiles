@@ -20,7 +20,7 @@ set t_Co=256 " Explicitly tell Vim that the terminal supports 256 colors
 let mapleader = ","
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
 map <leader>nn :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark 
+map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
 
 
@@ -61,8 +61,8 @@ let g:PyFlakeOnWrite = 1
 let g:PyFlakeCheckers = 'pep8,mccabe,pyflakes'
 let g:PyFlakeDefaultComplexity=10
 let g:PyFlakeDisabledMessages = 'E501'
-let g:PyFlakeCWindow = 6 
-let g:PyFlakeSigns = 1 
+let g:PyFlakeCWindow = 6
+let g:PyFlakeSigns = 1
 let g:PyFlakeMaxLineLength = 100
 let g:PyFlakeRangeCommand = 'Q'
 

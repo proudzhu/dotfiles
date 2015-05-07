@@ -5,7 +5,7 @@ set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/Vundle.vim'
 
 " My Bundles here:
@@ -14,7 +14,7 @@ Bundle 'gmarik/Vundle.vim'
 Plugin 'andviro/flake8-vim'
 Plugin 'bling/vim-airline'
 Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'esukram/vim-taglist' 
+Plugin 'esukram/vim-taglist'
 Plugin 'helino/vim-nasm'
 "Plugin 'jeaye/color_coded'
 "Plugin 'kien/ctrlp.vim'
