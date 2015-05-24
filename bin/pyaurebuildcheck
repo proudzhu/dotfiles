@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+
+from pycman import action_query
+from pycman import config
+from pycman import pkginfo
+
+from elftools.elf.elffile import ELFFile
+from elftools.common.exceptions import ELFError
+from elftools.common.py3compat import bytes2str
+
+
+class colors:
+    BOLDRED = "\033[1;31m"
+    BOLDGREEN = "\033[1;32m"
+    BOLDWHITE = "\033[1;37m"
+    NC = "\033[0m"
+
+def main():
+    parser = config.make_parser(prog='pycman-query')
+    group = parser.add_argument_group("Query options")
+    group.add_argument('-m', '--foreign',
+                       action='store_true', default=False,
+                       help='list installed packages not found in sync db(s) [filter]')
+    args = parser.parse_args()
+    args.foreign = True
+    args.package = False
+    args.quiet = True
+    args.info = False
+    args.listfiles = False
+    handle = config.init_with_config_and_options(args)
+
+    db = handle.get_localdb()
+    pkglist = db.pkgcache
+
+    if args.foreign:
+        syncpkgs = set()
+        for db in handle.get_syncdbs():
+            syncpkgs |= set(p.name for p in db.pkgcache)
+
+    result = []
+    skippkgs = []  # store pkg.arch is any
+    for pkg in pkglist:
+        if pkg.name in syncpkgs:
+            continue
+        if pkg.arch == "any":
+            skippkgs.append(pkg)
+        else:
+            result.append(pkg)
+
+    # now we get a list of foreign packages
+    print("Checking {} local packages...".format(len(result) + len(skippkgs)))
+    print()
+    brokenpkgs = []
+    for pkg in result:
+        print("Checking {}...".format(pkg.name), end='')
+        for path, size, mode in pkg.files:
+            absolute_path = "/" + path
+            if absolute_path[-1] == "/":
+                continue
+            try:
+                with open(absolute_path, "rb") as file:
+                    readelf = ELFFile(file)
+                    section = readelf.get_section_by_name(b'.dynamic')
+                    for tag in section.iter_tags():
+                        if tag.entry.d_tag == 'DT_NEEDED':
+                            lib = bytes2str(tag.needed)
+                            if not any([os.path.exists(os.path.join(x, lib)) for x in ["/usr/lib/", "/usr/local/lib/"]]):
+                                if pkg not in brokenpkgs:
+                                    brokenpkgs.append(pkg)
+                                    print()
+                                print("\t" + colors.BOLDRED + "{} needs {}".format(absolute_path, lib) + colors.NC)
+                                continue
+            except ELFError as ex:
+                continue
+        if pkg not in brokenpkgs:
+            print(" " + colors.BOLDGREEN + "[OK]" + colors.NC)
+
+    print("Everything done.\n")
+
+    if len(brokenpkgs):
+        print("{} package(s) may need rebuild:".format(len(brokenpkgs)))
+        for pkg in brokenpkgs:
+            print(colors.BOLDRED + " {}".format(pkg.name) + colors.NC, end=' ')
+
+    print("\n")
+
+    if len(skippkgs):
+        print("{} package(s) auto ignored:".format(len(skippkgs)))
+        for pkg in skippkgs:
+            print(" {}".format(pkg.name), end=' ')
+
+    return 0
+
+if __name__ == "__main__":
+    ret = main()
+    sys.exit(ret)
