@@ -1,2 +1,2 @@
-[ ] add ~/.dir_colors
-[ ] add neovim config
+[*] add ~/.dir_colors
+[*] add neovim config
