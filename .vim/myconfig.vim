@@ -45,8 +45,7 @@ set shiftwidth=4
 " no swap file
 set noswapfile
 " 按tab键时产生的是4个空格
-set ts=4
-set expandtab
+"set expandtab
 set autoindent
 
 " Ignore case when searching
@@ -75,3 +74,18 @@ set mat=2
 
 " autoload tag files
 set tags=./tags,tags,/
+
+" colorcolumn
+set colorcolumn=80
+
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set norelativenumber
+    else
+        set relativenumber
+    endif
+endfunc
+
+nnoremap <leader>nt :call NumberToggle()<cr>
+
+set pastetoggle=<F10>

@@ -12,28 +12,37 @@ Bundle 'gmarik/Vundle.vim'
 "
 " original repos on github
 Plugin 'andviro/flake8-vim'
-Plugin 'bling/vim-airline'
 Plugin 'bronson/vim-trailing-whitespace'
+Plugin 'brookhong/cscope.vim'
+"Plugin 'dkasak/manpageview'
+Plugin 'editorconfig/editorconfig-vim'
 Plugin 'esukram/vim-taglist'
 Plugin 'helino/vim-nasm'
-"Plugin 'jeaye/color_coded'
-"Plugin 'kien/ctrlp.vim'
-"Plugin 'Lokaltog/vim-easymotion'
-"Plugin 'majutsushi/tagbar'
-"Plugin 'Raimondi/delimitMate'
 Plugin 'rking/ag.vim'
-"Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-markdown'
 Plugin 'Valloric/YouCompleteMe'
-"Plugin 'xolox/vim-easytags'
-"Plugin 'xolox/vim-lua-inspect'
-"Plugin 'xolox/vim-misc'
+Plugin 'fidian/hexmode'
+Plugin 'ctrlpvim/ctrlp.vim'
+
+" language support
+Plugin 'rust-lang/rust.vim'
+Plugin 'vim-perl/vim-perl'
+" Plugin 'neovimhaskell/haskell-vim'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'eagletmt/neco-ghc'
+Plugin 'jvirtanen/vim-octave'
 
 " colorscheme
-"Plugin 'altercation/vim-colors-solarized'
 Plugin 'wesgibbs/vim-irblack'
+
+" status line
+Plugin 'bling/vim-airline'
+
+" commit message
+Plugin 'rhysd/committia.vim'
 
 call vundle#end()           " required
 filetype plugin indent on   " required!

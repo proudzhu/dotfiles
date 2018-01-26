@@ -35,6 +35,7 @@ alias p2net='curl -F "vimcn=<-" http://p.vim-cn.com'
 
 #use vim as defaulted
 alias vi='vim'
+alias vim='nvim'
 
 #create a playlist
 alias creat_pl='find /media/WinD -maxdepth 4 -type f -iregex ".*\.\(aac\|flac\|mp3\|ogg\|wav\|m4a\|ape\)$" | sort > playlist'
@@ -80,3 +81,12 @@ alias ycm_config_gen="$HOME/workspace/YCM-Generator/config_gen.py ."
 
 # get system install time
 alias get_installation_time='echo $(grep -c "full system upgrade" /var/log/pacman.log) upgrades since $(head -n1 /var/log/pacman.log | cut -d " " -f 1,2)'
+
+# bilidan
+alias bilidan="bilidan --cookie 'DedeUserID=457115; DedeUserID__ckMd5=6364b2811eeacc02; SESSDATA=ffb9069c%2C1447552556%2Cddbad396'"
+
+# proxychains
+alias proxychains="proxychains -f $HOME/.config/proxychains/proxychains.conf"
+
+# cmake clang
+alias clangmake="cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_USER_MAKE_RULES_OVERRIDE=~/ClangOverrides.txt"

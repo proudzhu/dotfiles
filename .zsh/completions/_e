@@ -1,0 +1,14 @@
+#compdef e
+_arguments : \
+	'fstab[Edit /etc/fstab]' \
+	'grub[Edit /etc/default/grub]' \
+	'mirror[Edit /etc/pacman.d/mirrorlist]' \
+	'pacman[Edit /etc/pacman.conf]' \
+	'goagent[Edit /etc/goagent]' \
+	'makepkg[Edit ~/.makepkg.conf]' \
+	'zshrc[Edit ~/.zshrc]' \
+	'cower[Edit ~/.config/cower/config]' \
+	'alias[Edit ~/.zsh/plugins/alias.plugin.zsh]' \
+	'fun[Edit ~/.zsh/plugins/functions.plugin.zsh]' \
+	'conky[Edit ~/.conkyrc]' \
+	'vimrc[Edit ~/.vimrc]'

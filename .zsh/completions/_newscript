@@ -1,0 +1,4 @@
+#compdef newscript
+_arguments \
+	'-l[specify a script language]'
+

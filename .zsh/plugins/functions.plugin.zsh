@@ -1,5 +1,5 @@
 # Set colors for man pages
-man() {
+coman () {
 	env \
 	LESS_TERMCAP_mb=$(printf "\e[1;31m") \
 	LESS_TERMCAP_md=$(printf "\e[1;31m") \
@@ -393,6 +393,17 @@ zle -N sudo-command-line
 bindkey "\e\e" sudo-command-line
 #}}}
 #
+##在命令前插入 sudo {{{
+#定义功能 
+proxychains-command-line() {
+    [[ -z $BUFFER ]] && zle up-history
+    [[ $BUFFER != proxychains\ * ]] && BUFFER="proxychains $BUFFER"
+    zle end-of-line                 #光标移动到行末
+}
+zle -N proxychains-command-line
+#定义快捷键为： [Esc] [Esc]
+bindkey "^^" proxychains-command-line
+#}}}
 #
 
 # A simple calc
@@ -473,4 +484,14 @@ getrand() {
 #md5sum for a input string
 md5() {
     md5sum<<<$1 | cut -f1 -d' ';
+}
+
+function setDefaultCompilerToClang() {
+    export CC=/usr/bin/clang;
+    export CXX=/usr/bin/clang++;
+}
+
+function setDefaultCompilerToGcc() {
+    export CC=/usr/bin/gcc;
+    export CXX=/usr/bin/g++;
 }
