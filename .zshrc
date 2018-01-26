@@ -72,8 +72,8 @@ export PATH="/usr/lib/ccache/bin/:$PATH"
 export PATH=$PATH:$HOME/.perl6/2015.06/bin
 
 # luarocks
-eval `luarocks path`
-export PATH=$PATH:$HOME/.luarocks/bin
+#eval `luarocks path`
+#export PATH=$PATH:$HOME/.luarocks/bin
 
 # for rust debug
 export RUST_BACKTRACE=1
@@ -92,3 +92,6 @@ export GRADLE_USER_HOME="/media/WinD/.gradle"
 
 # for android ndk
 export PATH=$PATH:/opt/android-ndk/
+
+# See https://github.com/Microsoft/BashOnWindows/issues/1887
+unsetopt BG_NICE
