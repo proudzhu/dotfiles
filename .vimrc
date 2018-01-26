@@ -1,57 +1,57 @@
-set nocompatible               " be iMproved
-filetype off                   " required!
-
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
-
-" let Vundle manage Vundle
-" required!
-Bundle 'gmarik/Vundle.vim'
+call plug#begin('~/.vim/bundle')
 
 " My Bundles here:
 "
 " original repos on github
-Plugin 'andviro/flake8-vim'
-Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'brookhong/cscope.vim'
-"Plugin 'dkasak/manpageview'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'esukram/vim-taglist'
-Plugin 'helino/vim-nasm'
-Plugin 'rking/ag.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-markdown'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'fidian/hexmode'
-Plugin 'ctrlpvim/ctrlp.vim'
+"Plug 'andviro/flake8-vim'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'brookhong/cscope.vim'
+"Plug 'dkasak/manpageview'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'esukram/vim-taglist'
+"Plug 'helino/vim-nasm'
+Plug 'rking/ag.vim'
+Plug 'scrooloose/nerdtree'
+"Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-markdown'
+"Plug 'Valloric/YouCompleteMe'
+Plug 'Rip-Rip/clang_complete'
+Plug 'fidian/hexmode'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
+Plug 'godlygeek/tabular'
 
 " language support
-Plugin 'rust-lang/rust.vim'
-Plugin 'vim-perl/vim-perl'
-" Plugin 'neovimhaskell/haskell-vim'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'eagletmt/ghcmod-vim'
-Plugin 'eagletmt/neco-ghc'
-Plugin 'jvirtanen/vim-octave'
+Plug 'rust-lang/rust.vim'
+Plug 'vim-perl/vim-perl'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'Shougo/vimproc.vim'
+Plug 'eagletmt/ghcmod-vim'
+Plug 'eagletmt/neco-ghc'
+Plug 'jvirtanen/vim-octave'
+Plug 'vim-scripts/google.vim'
+Plug 'HerringtonDarkholme/yats.vim'
+"Plug 'kovisoft/slimv'
+Plug 'Chiel92/vim-autoformat'
 
 " colorscheme
-Plugin 'wesgibbs/vim-irblack'
+Plug 'wesgibbs/vim-irblack'
 
 " status line
-Plugin 'bling/vim-airline'
+Plug 'bling/vim-airline'
 
 " commit message
-Plugin 'rhysd/committia.vim'
+Plug 'rhysd/committia.vim'
 
-call vundle#end()           " required
-filetype plugin indent on   " required!
+call plug#end()
+
 "
 " Brief help
-" :PluginList          - list configured bundles
-" :PluginInstall(!)    - install(update) bundles
-" :PluginSearch(!) foo - search(or refresh cache first) for foo
-" :PluginClean(!)      - confirm(or auto-approve) removal of unused bundles
+" :PlugList          - list configured bundles
+" :PlugInstall(!)    - install(update) bundles
+" :PlugSearch(!) foo - search(or refresh cache first) for foo
+" :PlugClean(!)      - confirm(or auto-approve) removal of unused bundles
 "
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
