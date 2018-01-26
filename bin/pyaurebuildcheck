@@ -18,6 +18,7 @@ class colors:
     BOLDWHITE = "\033[1;37m"
     NC = "\033[0m"
 
+
 def main():
     parser = config.make_parser(prog='pycman-query')
     group = parser.add_argument_group("Query options")
@@ -63,11 +64,11 @@ def main():
             try:
                 with open(absolute_path, "rb") as file:
                     readelf = ELFFile(file)
-                    section = readelf.get_section_by_name(b'.dynamic')
+                    section = readelf.get_section_by_name('.dynamic')
                     for tag in section.iter_tags():
                         if tag.entry.d_tag == 'DT_NEEDED':
-                            lib = bytes2str(tag.needed)
-                            if not any([os.path.exists(os.path.join(x, lib)) for x in ["/usr/lib/", "/usr/local/lib/"]]):
+                            lib = tag.needed
+                            if not any([os.path.exists(os.path.join(x, lib)) for x in ["/usr/lib/", "/usr/local/lib/", "/usr/lib/perl5/core_perl/CORE/"]]):
                                 if pkg not in brokenpkgs:
                                     brokenpkgs.append(pkg)
                                     print()

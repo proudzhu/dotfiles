@@ -70,4 +70,3 @@ TE=$(date +%s)
 let TD="$TE-$TS"
 echo -e "Done after ${BOLDWHITE}${TD}${NC} seconds."
 echo "This script may not be able to distinguish between required and optional dependencies!"
-

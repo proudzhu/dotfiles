@@ -1,0 +1,3 @@
+#!/bin/sh
+export PYTHONPATH=$HOME/workspace/danmaku2ass/
+exec $HOME/workspace/BiliDan/bilidan.py "$@" 
