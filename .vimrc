@@ -18,7 +18,7 @@ Plug 'tpope/vim-markdown'
 Plug 'Rip-Rip/clang_complete'
 Plug 'fidian/hexmode'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
 Plug 'godlygeek/tabular'
 

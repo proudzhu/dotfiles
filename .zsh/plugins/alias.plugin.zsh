@@ -35,7 +35,7 @@ alias p2net='curl -F "vimcn=<-" http://p.vim-cn.com'
 
 #use vim as defaulted
 alias vi='vim'
-alias vim='nvim'
+#alias vim='nvim'
 
 #create a playlist
 alias creat_pl='find /media/WinD -maxdepth 4 -type f -iregex ".*\.\(aac\|flac\|mp3\|ogg\|wav\|m4a\|ape\)$" | sort > playlist'

@@ -98,3 +98,6 @@ export PATH="/usr/lib/ccache:$PATH"
 
 # See https://github.com/Microsoft/BashOnWindows/issues/1887
 unsetopt BG_NICE
+
+# ignore ORIG_HEAD in autocomplete
+zstyle ':completion:*:*' ignored-patterns '*ORIG_HEAD'

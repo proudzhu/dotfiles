@@ -1,0 +1,5 @@
+# vim bundle
+.vim/bundle/
+
+# zsh cache
+.zsh/cache/
