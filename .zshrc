@@ -93,5 +93,8 @@ export GRADLE_USER_HOME="/media/WinD/.gradle"
 # for android ndk
 export PATH=$PATH:/opt/android-ndk/
 
+# ccache
+export PATH="/usr/lib/ccache:$PATH"
+
 # See https://github.com/Microsoft/BashOnWindows/issues/1887
 unsetopt BG_NICE
