@@ -115,3 +115,19 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# gcc 10
+#export PATH="/opt/gcc-arm-none-eabi-10-2020-q4-major/bin:$PATH"
+
+# gcc 9
+export PATH="/opt/gcc-arm-none-eabi-9-2019-q4-major/bin:$PATH"
+
+# armclang
+export PATH="/usr/local/ARMCompiler6.14.1/bin:$PATH"
+export ARMLMD_LICENSE_FILE=28011@192.168.10.11
+
+export PATH="/usr/lib/ccache:$PATH"
+
+export DISPLAY=:0
+
+source ~/bin/envsetup.sh
