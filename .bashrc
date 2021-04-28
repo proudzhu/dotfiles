@@ -116,11 +116,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
+alias vim=nvim
+
 # gcc 10
 #export PATH="/opt/gcc-arm-none-eabi-10-2020-q4-major/bin:$PATH"
 
 # gcc 9
-export PATH="/opt/gcc-arm-none-eabi-9-2019-q4-major/bin:$PATH"
+export PATH="/opt/gcc-arm-none-eabi-9-2020-q2-update/bin:$PATH"
 
 # armclang
 export PATH="/usr/local/ARMCompiler6.14.1/bin:$PATH"
@@ -128,6 +130,15 @@ export ARMLMD_LICENSE_FILE=28011@192.168.10.11
 
 export PATH="/usr/lib/ccache:$PATH"
 
+export PATH="$HOME/bin:$PATH"
+
 export DISPLAY=:0
 
 source ~/bin/envsetup.sh
+
+# use windows proxy
+export hostip=$(cat /etc/resolv.conf |grep -oP '(?<=nameserver\ ).*')
+export https_proxy="http://${hostip}:7890";
+export http_proxy="http://${hostip}:7890";
+export all_proxy="socks5://${hostip}:7890";
+
