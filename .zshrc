@@ -19,6 +19,9 @@ export TERM="xterm-256color"
 export UNZIP="-O CP936"
 export ZIPINFO="-O CP936"
 
+# bash comp
+autoload -U +X bashcompinit && bashcompinit
+
 # Load all of the config files in ~/.zsh that end in .zsh or .plugin.zsh
 for config_file ($ZSH/lib/*.zsh) source $config_file
 for plugin_file ($ZSH/plugins/*.plugin.zsh) source $plugin_file
@@ -101,3 +104,45 @@ unsetopt BG_NICE
 
 # ignore ORIG_HEAD in autocomplete
 zstyle ':completion:*:*' ignored-patterns '*ORIG_HEAD'
+
+# gcc 10
+#export PATH="/opt/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH"
+
+# gcc 9
+export PATH="/opt/gcc-arm-none-eabi-9-2020-q2-update/bin:$PATH"
+
+# gcc 7
+#export PATH="/opt/gcc-arm-none-eabi-7-2017-q4-major/bin:$PATH"
+
+# armclang
+export PATH="/usr/local/ARMCompiler6.14.1/bin:$PATH"
+export ARMLMD_LICENSE_FILE=28011@192.168.10.11
+
+export PATH="/usr/lib/ccache:$PATH"
+
+export PATH="$HOME/bin:$PATH"
+
+source ~/bin/envsetup.sh
+
+# use windows proxy
+export hostip=$(cat /etc/resolv.conf |grep -oP '(?<=nameserver\ ).*')
+export https_proxy="http://${hostip}:7890";
+export http_proxy="http://${hostip}:7890";
+export all_proxy="socks5://${hostip}:7890";
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/zhihaozhu/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/zhihaozhu/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/zhihaozhu/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/zhihaozhu/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

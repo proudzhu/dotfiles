@@ -28,7 +28,7 @@ alias pingv4='sudo ping -c 3 www.baidu.com'
 alias pingv6='sudo ping6 -c 3 ipv6.google.com'
 
 #aria2c
-alias aria2c_proxy='aria2c --continue=true  --all-proxy=127.0.0.1:8087  --check-certificate=false'
+alias aria2c_proxy='aria2c --continue=true --check-certificate=false'
 
 #paste to net
 alias p2net='curl -F "vimcn=<-" http://p.vim-cn.com' 
